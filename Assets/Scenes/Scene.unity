@@ -311,6 +311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1935f0e8a62143b787f4b3e7331546e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  voteManager: {fileID: 1423732088}
   inputTime: .300000012
   cam: {fileID: 706662063}
   camFollowSpeed: 2
@@ -559,7 +560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d04cf98d88d6eaf47abdd297910fd576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interval: 5
+  interval: .5
   upDisplay: {fileID: 179646774}
   downDisplay: {fileID: 2073781568}
   winnerDisplay: {fileID: 220032891}

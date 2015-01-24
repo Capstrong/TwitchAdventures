@@ -5,15 +5,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Parse;
 
-public enum VoteType
-{
-	UP,
-	DOWN,
-	TIE
-}
-
 public class VoteManager : MonoBehaviour
 {
+	public delegate void VoteCallback( VoteManager voteManager );
+
+	public VoteCallback voteCallbacks = delegate( VoteManager voteManager ) { };
+
 	[Tooltip( "Interval between queries in seconds." )]
 	public float interval;
 
@@ -22,16 +19,16 @@ public class VoteManager : MonoBehaviour
 	public Text winnerDisplay;
 
 	[HideInInspector]
-	public VoteType winningVote;
+	public MoveDirection winningVote;
 
-	private Dictionary<VoteType, int> votes;
+	private Dictionary<MoveDirection, int> votes;
 	private bool votesDirty = false;
 	private DateTime _lastTime;
 
 	void Awake()
 	{
 		_lastTime = DateTime.UtcNow;
-		votes = new Dictionary<VoteType,int>();
+		votes = new Dictionary<MoveDirection,int>();
 		ResetVotes();
 	}
 
@@ -44,9 +41,11 @@ public class VoteManager : MonoBehaviour
 	{
 		if ( votesDirty )
 		{
-			upDisplay.text = "Up: " + votes[VoteType.UP];
-			downDisplay.text = "Down: " + votes[VoteType.DOWN];
+			upDisplay.text = "North: " + votes[MoveDirection.North];
+			downDisplay.text = "South: " + votes[MoveDirection.South];
 			winnerDisplay.text = "Winner: " + winningVote;
+
+			voteCallbacks( this );
 
 			votesDirty = false;
 		}
@@ -54,9 +53,9 @@ public class VoteManager : MonoBehaviour
 
 	public void ResetVotes()
 	{
-		foreach ( VoteType voteType in (VoteType[])Enum.GetValues( typeof( VoteType ) ) )
+		foreach ( MoveDirection MoveDirection in (MoveDirection[])Enum.GetValues( typeof( MoveDirection ) ) )
 		{
-			votes[voteType] = 0;
+			votes[MoveDirection] = 0;
 		}
 	}
 
@@ -70,13 +69,13 @@ public class VoteManager : MonoBehaviour
 			{
 				ResetVotes();
 
-				winningVote = VoteType.TIE;
+				winningVote = MoveDirection.Tie;
 				int mostVotes = 0;
 
 				IEnumerable<ParseObject> results = t.Result;
 				foreach ( ParseObject vote in results )
 				{
-					VoteType voteType = (VoteType)Enum.Parse( typeof( VoteType ), vote.Get<String>("vote") );
+					MoveDirection voteType = (MoveDirection)Enum.Parse( typeof( MoveDirection ), vote.Get<String>("vote") );
 					++votes[voteType];
 
 					int voteCount = votes[voteType];
@@ -87,7 +86,7 @@ public class VoteManager : MonoBehaviour
 					}
 					else if ( voteCount == mostVotes )
 					{
-						winningVote = VoteType.TIE;
+						winningVote = MoveDirection.Tie;
 					}
 				}
 
