@@ -9,11 +9,17 @@ public enum VoteType
 {
 	UP,
 	DOWN,
+	LEFT,
+	RIGHT,
 	TIE
 }
 
 public class VoteManager : MonoBehaviour
 {
+	public delegate void VoteCallback( VoteManager voteManager );
+
+	public VoteCallback voteCallbacks = delegate( VoteManager voteManager ) { };
+
 	[Tooltip( "Interval between queries in seconds." )]
 	public float interval;
 
@@ -47,6 +53,8 @@ public class VoteManager : MonoBehaviour
 			upDisplay.text = "Up: " + votes[VoteType.UP];
 			downDisplay.text = "Down: " + votes[VoteType.DOWN];
 			winnerDisplay.text = "Winner: " + winningVote;
+
+			voteCallbacks( this );
 
 			votesDirty = false;
 		}

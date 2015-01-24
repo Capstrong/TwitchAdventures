@@ -498,9 +498,7 @@ MonoBehaviour:
   upDisplay: {fileID: 179646774}
   downDisplay: {fileID: 2073781568}
   winnerDisplay: {fileID: 220032891}
-  voteTypes:
-  - UP
-  - DOWN
+  winningVote: 0
 --- !u!4 &1423732089
 Transform:
   m_ObjectHideFlags: 0
