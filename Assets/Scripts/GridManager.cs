@@ -23,7 +23,7 @@ public class GridLocation
 
 public class GridManager : SingletonBehaviour<GridManager> 
 {
-	public List<GridLocation> gridLocations = new List<GridLocation>();
+	List<GridLocation> gridLocations = new List<GridLocation>();
 
 	public void RegisterGridLocation(GridLocation gridLocation)
 	{
