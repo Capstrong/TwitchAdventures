@@ -16,6 +16,8 @@ public class VoteManager : MonoBehaviour
 
 	public Text upDisplay;
 	public Text downDisplay;
+	public Text eastDisplay;
+	public Text westDisplay;
 	public Text winnerDisplay;
 
 	[HideInInspector]
@@ -44,6 +46,8 @@ public class VoteManager : MonoBehaviour
 		{
 			upDisplay.text = "North: " + _votes[MoveDirection.North];
 			downDisplay.text = "South: " + _votes[MoveDirection.South];
+			eastDisplay.text = "East: " + _votes[MoveDirection.East];
+			westDisplay.text = "West: " + _votes[MoveDirection.West];
 			winnerDisplay.text = "Winner: " + winningVote;
 
 			voteCallbacks( this );
