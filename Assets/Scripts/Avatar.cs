@@ -6,21 +6,29 @@ public enum MoveDirection
 	North,
 	East,
 	South,
-	West
+	West,
+	Tie
 }
 
 public class Avatar : MonoBehaviour 
 {
+	public VoteManager voteManager;
+
 	[SerializeField] float inputTime = 0.2f;
 	float inputTimer = 0f;
 
 	[SerializeField] Camera cam;
 	[SerializeField] float camFollowSpeed = 5f;
 
-	void Update()
+	void Start()
 	{
-		Movement();
+		voteManager.voteCallbacks += MovePlayer;
 	}
+
+	//void Update()
+	//{
+	//	Movement();
+	//}
 
 	void FixedUpdate()
 	{
@@ -36,36 +44,36 @@ public class Avatar : MonoBehaviour
 		                                      Time.deltaTime * camFollowSpeed);
 	}
 
-	void Movement()
-	{
-		float hInput = Input.GetAxis("Horizontal");
-		float vInput = Input.GetAxis("Vertical");
+	//void Movement()
+	//{
+	//	float hInput = Input.GetAxis("Horizontal");
+	//	float vInput = Input.GetAxis("Vertical");
 		
-		if(Mathf.Abs(hInput) > WadeUtils.SMALLNUMBER)
-		{
-			if(inputTimer > inputTime)
-			{
-				MovePlayer(hInput > 0f ? MoveDirection.East : MoveDirection.West);
-				inputTimer = 0f;
-			}
-		}
-		else if(Mathf.Abs(vInput) > WadeUtils.SMALLNUMBER)
-		{
-			if(inputTimer > inputTime)
-			{
-				MovePlayer(vInput > 0f ? MoveDirection.North : MoveDirection.South);
-				inputTimer = 0f;
-			}
-		}
+	//	if(Mathf.Abs(hInput) > WadeUtils.SMALLNUMBER)
+	//	{
+	//		if(inputTimer > inputTime)
+	//		{
+	//			MovePlayer(hInput > 0f ? MoveDirection.East : MoveDirection.West);
+	//			inputTimer = 0f;
+	//		}
+	//	}
+	//	else if(Mathf.Abs(vInput) > WadeUtils.SMALLNUMBER)
+	//	{
+	//		if(inputTimer > inputTime)
+	//		{
+	//			MovePlayer(vInput > 0f ? MoveDirection.North : MoveDirection.South);
+	//			inputTimer = 0f;
+	//		}
+	//	}
 		
-		inputTimer += Time.deltaTime;
-	}
+	//	inputTimer += Time.deltaTime;
+	//}
 
-	public void MovePlayer(MoveDirection moveDir)
+	public void MovePlayer( VoteManager voteManager )
 	{
 		Vector2 pos = Vector2.zero;
 
-		switch(moveDir)
+		switch( voteManager.winningVote )
 		{
 		case MoveDirection.North:
 			pos.y++;
@@ -90,6 +98,4 @@ public class Avatar : MonoBehaviour
 			// Shake chores
 		}
 	}
-
-
 }
