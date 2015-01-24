@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Parse;
 
-public class VoteManager : MonoBehaviour
+public class VoteManager : SingletonBehaviour<VoteManager>
 {
 	public delegate void VoteCallback( VoteManager voteManager );
 

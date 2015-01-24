@@ -20,15 +20,23 @@ public class Avatar : MonoBehaviour
 	[SerializeField] Camera cam;
 	[SerializeField] float camFollowSpeed = 5f;
 
+	[SerializeField] bool debug = false;
+
 	void Start()
 	{
-		voteManager.voteCallbacks += MovePlayer;
 	}
 
-	//void Update()
-	//{
-	//	Movement();
-	//}
+	void Update()
+	{
+		if(debug)
+		{
+			Movement();
+		}
+		else
+		{
+			voteManager.voteCallbacks = MovePlayer;
+		}
+	}
 
 	void FixedUpdate()
 	{
@@ -44,30 +52,60 @@ public class Avatar : MonoBehaviour
 		                                      Time.deltaTime * camFollowSpeed);
 	}
 
-	//void Movement()
-	//{
-	//	float hInput = Input.GetAxis("Horizontal");
-	//	float vInput = Input.GetAxis("Vertical");
+	void Movement()
+	{
+		float hInput = Input.GetAxis("Horizontal");
+		float vInput = Input.GetAxis("Vertical");
 		
-	//	if(Mathf.Abs(hInput) > WadeUtils.SMALLNUMBER)
-	//	{
-	//		if(inputTimer > inputTime)
-	//		{
-	//			MovePlayer(hInput > 0f ? MoveDirection.East : MoveDirection.West);
-	//			inputTimer = 0f;
-	//		}
-	//	}
-	//	else if(Mathf.Abs(vInput) > WadeUtils.SMALLNUMBER)
-	//	{
-	//		if(inputTimer > inputTime)
-	//		{
-	//			MovePlayer(vInput > 0f ? MoveDirection.North : MoveDirection.South);
-	//			inputTimer = 0f;
-	//		}
-	//	}
+		if(Mathf.Abs(hInput) > WadeUtils.SMALLNUMBER)
+		{
+			if(inputTimer > inputTime)
+			{
+				MovePlayer(hInput > 0f ? MoveDirection.East : MoveDirection.West);
+				inputTimer = 0f;
+			}
+		}
+		else if(Mathf.Abs(vInput) > WadeUtils.SMALLNUMBER)
+		{
+			if(inputTimer > inputTime)
+			{
+				MovePlayer(vInput > 0f ? MoveDirection.North : MoveDirection.South);
+				inputTimer = 0f;
+			}
+		}
 		
-	//	inputTimer += Time.deltaTime;
-	//}
+		inputTimer += Time.deltaTime;
+	}
+
+	public void MovePlayer(MoveDirection moveDirection)
+	{
+		Vector2 pos = Vector2.zero;
+		
+		switch( moveDirection )
+		{
+		case MoveDirection.North:
+			pos.y++;
+			break;
+		case MoveDirection.East:
+			pos.x++;
+			break;
+		case MoveDirection.South:
+			pos.y--;
+			break;
+		case MoveDirection.West:
+			pos.x--;
+			break;
+		}
+		
+		if(GridManager.instance.IsGridLocationOpen(pos.x, pos.y))
+		{
+			transform.position += (Vector3)pos;
+		}
+		else
+		{
+			// Shake chores
+		}
+	}
 
 	public void MovePlayer( VoteManager voteManager )
 	{
