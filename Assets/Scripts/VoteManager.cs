@@ -21,14 +21,15 @@ public class VoteManager : MonoBehaviour
 	[HideInInspector]
 	public MoveDirection winningVote;
 
-	private Dictionary<MoveDirection, int> votes;
-	private bool votesDirty = false;
+	private Dictionary<MoveDirection, int> _votes;
+	private HashSet<String> _countedVotes = new HashSet<string>();
+	private bool _votesDirty = false;
 	private DateTime _lastTime;
 
 	void Awake()
 	{
 		_lastTime = DateTime.UtcNow;
-		votes = new Dictionary<MoveDirection,int>();
+		_votes = new Dictionary<MoveDirection,int>();
 		ResetVotes();
 	}
 
@@ -39,15 +40,15 @@ public class VoteManager : MonoBehaviour
 
 	void Update()
 	{
-		if ( votesDirty )
+		if ( _votesDirty )
 		{
-			upDisplay.text = "North: " + votes[MoveDirection.North];
-			downDisplay.text = "South: " + votes[MoveDirection.South];
+			upDisplay.text = "North: " + _votes[MoveDirection.North];
+			downDisplay.text = "South: " + _votes[MoveDirection.South];
 			winnerDisplay.text = "Winner: " + winningVote;
 
 			voteCallbacks( this );
 
-			votesDirty = false;
+			_votesDirty = false;
 		}
 	}
 
@@ -55,7 +56,7 @@ public class VoteManager : MonoBehaviour
 	{
 		foreach ( MoveDirection MoveDirection in (MoveDirection[])Enum.GetValues( typeof( MoveDirection ) ) )
 		{
-			votes[MoveDirection] = 0;
+			_votes[MoveDirection] = 0;
 		}
 	}
 
@@ -75,22 +76,27 @@ public class VoteManager : MonoBehaviour
 				IEnumerable<ParseObject> results = t.Result;
 				foreach ( ParseObject vote in results )
 				{
-					MoveDirection voteType = (MoveDirection)Enum.Parse( typeof( MoveDirection ), vote.Get<String>("vote") );
-					++votes[voteType];
+					if ( !_countedVotes.Contains( vote.ObjectId ) )
+					{
+						_countedVotes.Add( vote.ObjectId );
 
-					int voteCount = votes[voteType];
-					if ( voteCount > mostVotes )
-					{
-						winningVote = voteType;
-						mostVotes = voteCount;
-					}
-					else if ( voteCount == mostVotes )
-					{
-						winningVote = MoveDirection.Tie;
+						MoveDirection voteType = (MoveDirection)Enum.Parse( typeof( MoveDirection ), vote.Get<String>("vote") );
+						++_votes[voteType];
+
+						int voteCount = _votes[voteType];
+						if ( voteCount > mostVotes )
+						{
+							winningVote = voteType;
+							mostVotes = voteCount;
+						}
+						else if ( voteCount == mostVotes )
+						{
+							winningVote = MoveDirection.Tie;
+						}
 					}
 				}
 
-				votesDirty = true;
+				_votesDirty = true;
 			} );
 
 			_lastTime = DateTime.UtcNow;
