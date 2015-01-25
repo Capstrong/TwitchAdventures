@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8041d79acf5834934b9f40320dadf931, type: 3}
+  m_Name: ChoiceShark
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: 5eacca1b6939847e88c50ff9027c0f84, type: 3}
+  text: In an effort to impress the locals and gain support, [p] proposes jumping
+    a shark. Sound like a plan?
+  yesResult:
+    text: 'Nice stunt.  You got some grub from the locals. '
+    foodChange: 10
+    peopleChange: 0
+  noResult:
+    text: 'People think you are lame now. Some of the group leaves. '
+    foodChange: 0
+    peopleChange: -5
+  tieResult:
+    text: Someone else runs off to try it. Sadly you lose [p].
+    foodChange: 0
+    peopleChange: -1

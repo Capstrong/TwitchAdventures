@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8041d79acf5834934b9f40320dadf931, type: 3}
+  m_Name: ChoiceOctopus
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: e54a19dbcccff4d9ab02b143a5b63be3, type: 3}
+  text: A giant octopus has made its way into your camp and has siezed some of you
+    group. You could throw food at it to get it to drop them. Sound like a plan?
+  yesResult:
+    text: It worked, the octopus dropped your friends and took your food instead.
+      Yay?
+    foodChange: -8
+    peopleChange: 0
+  noResult:
+    text: 'They can handle themselves. But not really; they died. '
+    foodChange: 0
+    peopleChange: -8
+  tieResult:
+    text: The octopus inks in a frenzied panic, spoiling your food.
+    foodChange: -10
+    peopleChange: 0

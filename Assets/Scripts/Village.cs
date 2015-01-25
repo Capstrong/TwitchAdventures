@@ -56,19 +56,19 @@ public class Village : SingletonBehaviour<Village>
 		foodDisplay.text = "Food: " + numFood;
 	}
 
-	public int GetClassCount(VillagerClass villagerClass)
-	{
-		int num = 0;
-		foreach(Villager villager in villagers)
-		{
-			if(villager.villagerClass == villagerClass)
-			{
-				num++;
-			}
-		}
-		
-		return num;
-	}
+//	public int GetClassCount(VillagerClass villagerClass)
+//	{
+//		int num = 0;
+//		foreach(Villager villager in villagers)
+//		{
+//			if(villager.villagerClass == villagerClass)
+//			{
+//				num++;
+//			}
+//		}
+//		
+//		return num;
+//	}
 
 	public void AddVillagers(int num)
 	{

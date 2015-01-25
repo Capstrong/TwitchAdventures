@@ -36,13 +36,34 @@ public class GameEvent : ScriptableObject
 [System.Serializable]
 public struct EventCondition
 {
-	public VillagerClass villagerClass;
+	//public VillagerClass villagerClass;
 	public CompareType compareType;
 	public int value;
 };
 
 public class EventManager : SingletonBehaviour<EventManager> 
 {
+	string[] firstNames = new string[]{ 	"George", "Shingen", "Huriyama", "Hanzo", "Jiro", "Mufasa", "Hideo", 
+										"Kenji", "Ryo", "Takashi", "Akane", "Chiyo", "Emiko", "Izumi",
+										"Kame", "Masume", "Rika", "Jerry", "Percival", "Terrence", "Ophelia", 
+										"Masamune", "Cliff", "Chazz", "Felix", "Juliet", "Mariah", "Jose", "Seymour",
+										"Becky", "Hugo", "Hans", "Geronimo", "Doctor", "Obviously", "Lucius", 
+										"Hercules", "Captain", "Moby", "Vin", "The Big", "MC", "Teddy", "Eugene", 
+										"Shea", "Pavel", "Buddy", "Abraham", "Methuselah", "Nebuchadnezzar", 
+										"Quagguiníbush", "Hannibal", "Vuvuzela", "Euripedes", "Ricky", "Dick", 
+										"Chi Chi", "Wendy", "Olga", "Myriam", "Stonecold", "Skip", "Chris", 
+										"David", "Will", "Wyatt", "Jake" };
+	
+	string[] lastNames = new string[]{ 	"Jake-San", "Takei", "Nintendoug", "Godfreyzilla", "Hibachi", "Arcade-Master", 
+										"Matada", "Thousand-Fists", "Kojima", "Mothra", "Johnson-san", "Jellyfish", "Incognito", 
+										"Power", "Lionheart", "Furioso", "But-With-A-Silent-A", "Franc-With-a-C", "Esquire", "Wu", 
+										"McSamurai", "Chaos", "-San", "-Sama", "Senpai", "Dover", "Steele", "Paintrain", "Goldberg",
+										"Snapdragon", "Tebow", "Strickland", " Lechuga", "Relampagos", "Evangelo", "Puddiní", 
+										"Frankenstein", "Pants", "The Mildly Unpleasant", "Tuesday", "Sideswipe", "Prime", "Tron",
+										"Weber", "Datsyuk", "Balboa", "Fury", "Duper", "Hightower", "Suzuki", "Nomo", "The Cat",
+										"Conehead", "Poppins", "Wade", " Legare", "Skipper", "Goliath", "Zappa", "Danger", "Armstrong",
+										"Garcia", "Cain", "Zink", "Shenanigans", "Hulkbuster" };
+	
 	[SerializeField] GameEvent[] gameEvents;
 	public Dictionary<string, GameEvent> eventMap = new Dictionary<string, GameEvent>();
 	
@@ -78,7 +99,7 @@ public class EventManager : SingletonBehaviour<EventManager>
 		if(Input.GetKeyDown(KeyCode.E))
 		{
 			StopAllCoroutines();
-			PlayEvent(gameEvents[0]);
+			PlayEvent(gameEvents[Random.Range(0, gameEvents.Length - 1)]);
 		}
 	}
 
@@ -99,6 +120,15 @@ public class EventManager : SingletonBehaviour<EventManager>
 		yield return new WaitForSeconds(source.clip.length - 3f);
 
 		currentGameEvent = gameEvent;
+
+		eventImage.sprite = currentGameEvent.sprite;
+
+		eventText.text = currentGameEvent.text;
+		while(eventText.text.Contains("[p]"))
+		{
+			eventText.text = eventText.text.Replace("[p]", 	firstNames[Random.Range(0, firstNames.Length - 1)] + " " +
+			                       							lastNames[Random.Range(0, lastNames.Length - 1)]);
+		}
 
 		// Play event sound
 		// Wait for song to end
@@ -158,6 +188,12 @@ public class EventManager : SingletonBehaviour<EventManager>
 				SoundManager.instance.Play2DSong("HoorayChildren");
 
 				eventText.text = currentGameEvent.yesResult.text;
+				while(eventText.text.Contains("[p]"))
+				{
+					eventText.text = eventText.text.Replace("[p]", 	firstNames[Random.Range(0, firstNames.Length - 1)] + " " +
+						                       						lastNames[Random.Range(0, lastNames.Length - 1)]);
+				}
+
 				Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
 				Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
 			}
@@ -166,6 +202,12 @@ public class EventManager : SingletonBehaviour<EventManager>
 				SoundManager.instance.Play2DSong("KidsBooing");
 
 				eventText.text = currentGameEvent.noResult.text;
+				while(eventText.text.Contains("[p]"))
+				{
+					eventText.text = eventText.text.Replace("[p]", 	firstNames[Random.Range(0, firstNames.Length - 1)] + " " +
+				                      				 				lastNames[Random.Range(0, lastNames.Length - 1)]);
+				}
+
 				Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
 				Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
 			}
@@ -173,7 +215,13 @@ public class EventManager : SingletonBehaviour<EventManager>
 			        voteManager.winningVote == VoteResponse.Tie)
 			{
 				ChoiceEvent choiceEvent = (ChoiceEvent)currentGameEvent;
+
 				eventText.text = choiceEvent.tieResult.text;
+				while(eventText.text.Contains("[p]"))
+				{
+					eventText.text = eventText.text.Replace("[p]", 	firstNames[Random.Range(0, firstNames.Length - 1)] + " " +
+				                      								lastNames[Random.Range(0, lastNames.Length - 1)]);
+				}
 
 				Village.instance.AddVillagers(choiceEvent.tieResult.peopleChange);
 				Village.instance.AddFood(choiceEvent.tieResult.foodChange);

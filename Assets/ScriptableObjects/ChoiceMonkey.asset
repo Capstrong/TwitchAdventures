@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8041d79acf5834934b9f40320dadf931, type: 3}
+  m_Name: ChoiceMonkey
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: df7df71b35cf247ba9262b02090e2507, type: 3}
+  text: The group comes upon a very tall tree full of delicious-looking monkeys. Send
+    someone up to get some monkey meat?
+  yesResult:
+    text: '[p] climbs up the tree. After much rustling,he extracts some monkeys. You
+      gain some bruised but edible meat. '
+    foodChange: 10
+    peopleChange: 0
+  noResult:
+    text: 'You leave the tree alone. Everyone''s stomach rumble. '
+    foodChange: 0
+    peopleChange: 0
+  tieResult:
+    text: The monkeys hear you argue and attack [p] with vigor.
+    foodChange: 0
+    peopleChange: -1

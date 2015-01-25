@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8041d79acf5834934b9f40320dadf931, type: 3}
+  m_Name: ChoiceRock
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: a55ba5b169b5544b0a6b84c834e42ae9, type: 3}
+  text: '[p] accidentally eats a rock thinking it was a riceball. The group suggests
+    execution before the stupidity spreads. Kill the accused?'
+  yesResult:
+    text: The group has a fun day. This was a surprisingly good bonding experience.
+    foodChange: 0
+    peopleChange: -1
+  noResult:
+    text: The accused wets their pants out of happiness. The group seems to regret
+      their decision.
+    foodChange: 0
+    peopleChange: 0
+  tieResult:
+    text: The group throws things at the accused until they get bored.
+    foodChange: 0
+    peopleChange: 0

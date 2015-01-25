@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8041d79acf5834934b9f40320dadf931, type: 3}
+  m_Name: ChoiceBait
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: c374ae9bac06b49b09eadb583cec8489, type: 3}
+  text: There is an enormous fish in the lake and human bait is suggested by the group
+    to catch it. Sound like a plan?
+  yesResult:
+    text: 'You lose [p] but got a heck of a story. '
+    foodChange: 30
+    peopleChange: -5
+  noResult:
+    text: 'People will go hungry. You lose [p]. '
+    foodChange: 0
+    peopleChange: -5
+  tieResult:
+    text: People try just using a little bit of human bait. [p] loses a leg.
+    foodChange: 0
+    peopleChange: 0

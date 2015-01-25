@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8041d79acf5834934b9f40320dadf931, type: 3}
+  m_Name: ChoiceSheep
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: 1ec47803717634a029dcc5966ae0dbac, type: 3}
+  text: You see a flock of sheep stranded on an island in the middle of a lake. The
+    group proposes a human bridge to extract the sheep. Sound like a plan?
+  yesResult:
+    text: 'You lose some good and buoyant men and got some damn tasty sheep. '
+    foodChange: 10
+    peopleChange: -5
+  noResult:
+    text: 'The sheep look at you with sad sheepy eyes as you walk away. '
+    foodChange: 0
+    peopleChange: 0
+  tieResult:
+    text: '[p] loses his nerve and jumps into the water. He is greeted by the most
+      beautiful sheep. They embrace. The group applaud and leaves.'
+    foodChange: 0
+    peopleChange: -1

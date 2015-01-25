@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8041d79acf5834934b9f40320dadf931, type: 3}
+  m_Name: ChoiceSoldiers
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: e66253b8a5c0145e19429ae9d4d2ef19, type: 3}
+  text: A group of soldiers pass you on the road. They want to recruit some of the
+    men in your group in exchange for food. Do you accept?
+  yesResult:
+    text: 'You lose group members and gain food. '
+    foodChange: 20
+    peopleChange: -20
+  noResult:
+    text: 'The soldiers resume marching...looking very lonely. '
+    foodChange: 0
+    peopleChange: 0
+  tieResult:
+    text: 'The soldiers see the unease amongst the group, and quickly steal [p] and
+      run away. '
+    foodChange: 0
+    peopleChange: -1
