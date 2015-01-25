@@ -12,7 +12,7 @@ public class Village : SingletonBehaviour<Village>
 	[SerializeField]
 	private int _villagers;
 	
-	public int villagers
+	public int villagerCount
 	{
 		get
 		{

@@ -8,7 +8,6 @@ public class GridManager : SingletonBehaviour<GridManager>
 
 	public static void RegisterGridObject( GridObject gridObject )
 	{
-		Debug.Log(gridObject.name);
 		if( !instance.gridObjects.Contains( gridObject ) )
 		{
 			instance.gridObjects.Add( gridObject );

@@ -52,8 +52,8 @@ public class VoteManager : SingletonBehaviour<VoteManager>
 			downDisplay.text = "South: " + _votes[VoteResponse.South];
 			eastDisplay.text = "East: " + _votes[VoteResponse.East];
 			westDisplay.text = "West: " + _votes[VoteResponse.West];
-			yesDisplay.text = "Yes: " + _votes[VoteResponse.Yes];
-			noDisplay.text = "No: " + _votes[VoteResponse.No];
+			//yesDisplay.text = "Yes: " + _votes[VoteResponse.Yes];
+			//noDisplay.text = "No: " + _votes[VoteResponse.No];
 			winnerDisplay.text = "Winner: " + winningVote;
 
 			voteCallbacks( this );

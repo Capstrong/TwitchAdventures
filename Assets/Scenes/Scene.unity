@@ -17149,6 +17149,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af9bd024389fd2f44aed82ca03bafdec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  villagers: []
+  numVillagers: 0
+  numFood: 0
   _villagers: 100
   villagersDisplay: {fileID: 1536633009}
 --- !u!95 &403707563
@@ -54036,6 +54039,8 @@ MonoBehaviour:
   downDisplay: {fileID: 2073781568}
   eastDisplay: {fileID: 26418400}
   westDisplay: {fileID: 1923906823}
+  yesDisplay: {fileID: 0}
+  noDisplay: {fileID: 0}
   winnerDisplay: {fileID: 220032891}
   winningVote: 0
 --- !u!4 &1423732089
@@ -59489,7 +59494,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1564917283
 Transform:
   m_ObjectHideFlags: 0

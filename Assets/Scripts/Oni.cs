@@ -8,8 +8,8 @@ public class Oni : GridObject
 
 	public override void Interact( Village village )
 	{
-		village.villagers -= damage;
-		health -= village.villagers;
+		village.villagerCount -= damage;
+		health -= village.villagerCount;
 
 		if ( health <= 0 )
 		{
