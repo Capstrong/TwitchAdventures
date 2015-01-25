@@ -54,10 +54,7 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     // Use this for initialization
     void Awake()
     {
-		if(!destroyOnLoad)
-		{
-        	DontDestroyElseKill(this);
-		}
+		base.Awake();
 
 		foreach(AudioPool audioPool in audioPools)
 		{

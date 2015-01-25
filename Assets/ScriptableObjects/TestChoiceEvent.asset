@@ -8,20 +8,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 8041d79acf5834934b9f40320dadf931, type: 3}
   m_Name: TestChoiceEvent
-  m_EditorClassIdentifier: Assembly-CSharp::ChoiceEvent
+  m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: c76c47bf93b0e4e43aaba957687c678c, type: 3}
-  text: This is a story thing, I guess!
+  text: This is event text.
   yesResult:
-    text: This is the yes text.
+    text: This is yes text.
     foodChange: 50
     peopleChange: -15
   noResult:
-    text: This is the no text.
+    text: This is no text.
     foodChange: 15
-    peopleChange: 25
+    peopleChange: -35
   tieResult:
-    text: This is the tie text.
-    foodChange: -15
-    peopleChange: -50
+    text: This is tie text.
+    foodChange: 20
+    peopleChange: 10

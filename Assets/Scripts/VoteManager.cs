@@ -64,9 +64,9 @@ public class VoteManager : SingletonBehaviour<VoteManager>
 
 	public void ResetVotes()
 	{
-		foreach ( VoteResponse MoveDirection in (VoteResponse[])Enum.GetValues( typeof( VoteResponse ) ) )
+		foreach ( VoteResponse voteResponse in (VoteResponse[])Enum.GetValues( typeof( VoteResponse ) ) )
 		{
-			_votes[MoveDirection] = 0;
+			_votes[voteResponse] = 0;
 		}
 	}
 

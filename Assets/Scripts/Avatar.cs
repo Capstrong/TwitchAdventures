@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum MoveDirection
+public enum VoteResponse
 {
 	North,
 	East,
@@ -55,7 +55,7 @@ public class Avatar : GridObject
 	//	{
 	//		if(inputTimer > inputTime)
 	//		{
-	//			MovePlayer(hInput > 0f ? MoveDirection.East : MoveDirection.West);
+	//			MovePlayer(hInput > 0f ? VoteResponse.East : VoteResponse.West);
 	//			inputTimer = 0f;
 	//		}
 	//	}
@@ -63,7 +63,7 @@ public class Avatar : GridObject
 	//	{
 	//		if(inputTimer > inputTime)
 	//		{
-	//			MovePlayer(vInput > 0f ? MoveDirection.North : MoveDirection.South);
+	//			MovePlayer(vInput > 0f ? VoteResponse.North : VoteResponse.South);
 	//			inputTimer = 0f;
 	//		}
 	//	}
@@ -78,19 +78,19 @@ public class Avatar : GridObject
 
 		switch( voteManager.winningVote )
 		{
-		case MoveDirection.North:
+		case VoteResponse.North:
 			newY++;
 			break;
-		case MoveDirection.East:
+		case VoteResponse.East:
 			newX++;
 			break;
-		case MoveDirection.South:
+		case VoteResponse.South:
 			newY--;
 			break;
-		case MoveDirection.West:
+		case VoteResponse.West:
 			newX--;
 			break;
-		case MoveDirection.Tie:
+		case VoteResponse.Tie:
 			return;
 		}
 

@@ -3,12 +3,8 @@ using System.Collections;
 
 public class GridObject : MonoBehaviour
 {
-	private new Transform transform;
-
-	void Awake()
+	void Start()
 	{
-		transform = GetComponent<Transform>();
-
 		GridManager.RegisterGridObject( this );
 	}
 

@@ -34,20 +34,6 @@ public class GameEvent : ScriptableObject
 };
 
 [System.Serializable]
-public class ChoiceEvent : GameEvent
-{
-	public EventResult tieResult;
-
-	#if UNITY_EDITOR
-	[MenuItem("Assets/Create/Events/Choice Event")]
-	public static void CreateAsset ()
-	{
-		ScriptableObjectUtility.CreateAsset<ChoiceEvent> ();
-	}
-	#endif
-};
-
-[System.Serializable]
 public struct EventCondition
 {
 	public VillagerClass villagerClass;
@@ -55,42 +41,7 @@ public struct EventCondition
 	public int value;
 };
 
-[System.Serializable]
-public class DynamicEvent : GameEvent
-{
-	public EventCondition eventCondition;
-
-	public bool Success(Village village)
-	{
-		int compareValue = village.GetClassCount(eventCondition.villagerClass);
-
-		switch(eventCondition.compareType)
-		{
-		case CompareType.Equal:
-			return eventCondition.value == compareValue;
-		case CompareType.Greater:
-			return eventCondition.value > compareValue;
-		case CompareType.GreaterEqual:
-			return eventCondition.value >= compareValue;
-		case CompareType.Less:
-			return eventCondition.value < compareValue;
-		case CompareType.LessEqual:
-			return eventCondition.value <= compareValue;
-		default:
-			return false;
-		}
-	}
-
-	#if UNITY_EDITOR
-	[MenuItem("Assets/Create/Events/Dynamic Event")]
-	public static void CreateAsset ()
-	{
-		ScriptableObjectUtility.CreateAsset<DynamicEvent> ();
-	}
-	#endif
-};
-
-public class EventManager : MonoBehaviour 
+public class EventManager : SingletonBehaviour<EventManager> 
 {
 	[SerializeField] GameEvent[] gameEvents;
 	public Dictionary<string, GameEvent> eventMap = new Dictionary<string, GameEvent>();
@@ -126,12 +77,24 @@ public class EventManager : MonoBehaviour
 		if(Input.GetKeyDown(KeyCode.E))
 		{
 			StopAllCoroutines();
-			StartCoroutine(PlayEvent(gameEvents[0]));
+			StartCoroutine(PlayEventRoutine(gameEvents[0]));
 		}
 	}
 
-	IEnumerator PlayEvent(GameEvent gameEvent)
+	public void PlayEvent(GameEvent gameEvent)
 	{
+		if(!currentGameEvent)
+		{
+			StartCoroutine(PlayEventRoutine(gameEvent));
+		}
+	}
+
+	IEnumerator PlayEventRoutine(GameEvent gameEvent)
+	{
+		Debug.Log("Do Event");
+
+		currentGameEvent = gameEvent;
+
 		// Play event sound
 		// Wait for song to end
 
@@ -146,8 +109,6 @@ public class EventManager : MonoBehaviour
 			slideTimer += Time.deltaTime;
 			yield return 0;
 		}
-
-		currentGameEvent = gameEvent;
 
 		if(gameEvent is DynamicEvent)
 		{
@@ -175,6 +136,8 @@ public class EventManager : MonoBehaviour
 
 	void EventVoteCallback(VoteManager voteManager)
 	{
+		Debug.Log(voteManager.winningVote);
+
 		if((int)voteManager.winningVote < 4)
 		{
 			Debug.LogError("Direction received instead of answer!");
@@ -206,8 +169,11 @@ public class EventManager : MonoBehaviour
 
 	IEnumerator FinishEvent()
 	{
+		Debug.Log("End event");
+
 		yield return new WaitForSeconds(eventEndWaitTime);
-		
+
+		VoteManager.instance.StopAllCoroutines();
 		VoteManager.instance.StartCoroutine("MoveVote");
 		
 		// Slide Panel Out
@@ -221,5 +187,9 @@ public class EventManager : MonoBehaviour
 			slideTimer += Time.deltaTime;
 			yield return 0;
 		}
+
+		currentGameEvent = null;
+		VoteManager.instance.voteCallbacks -= EventVoteCallback;
+		StopAllCoroutines();
 	}
 }
