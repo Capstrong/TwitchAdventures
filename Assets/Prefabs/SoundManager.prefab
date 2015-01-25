@@ -1,14 +1,76 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &165380
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 465380}
+  - 114: {fileID: 11465380}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &465380
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 165380}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.97924423, y: -.0735892877, z: .375}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11465380
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 165380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd1f1e31537924abd9caef55ce70b0ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioPools:
+  - poolName: Sound
+    poolType: 0
+    audioClips:
+    - {fileID: 8300000, guid: 417a251ff9fd1425584f0a226d5450ea, type: 3}
+    - {fileID: 8300000, guid: 4c23c4e27e226476596698a225d86217, type: 3}
+    - {fileID: 8300000, guid: 003080008b69b49d2874090643f867d9, type: 3}
+    - {fileID: 8300000, guid: 1ed8d298daf1e47249f930a5615880bc, type: 3}
+    - {fileID: 8300000, guid: 68c64b8e582104b0da83e343b287974e, type: 3}
+    - {fileID: 8300000, guid: 6e87bcd7e0c8046e3b5a61cadad8b4af, type: 3}
+    - {fileID: 8300000, guid: 8d54ed829a88244618b405c5bc27d896, type: 3}
+    - {fileID: 8300000, guid: a79dd69139de14275b0784fd8d141217, type: 3}
+    audioObjHolder: {fileID: 0}
+    audioObjs: []
+    muted: 0
+  - poolName: Songs
+    poolType: 1
+    audioClips:
+    - {fileID: 8300000, guid: 9bfb6b82dbe6f45ae95e3da8f3aa73b4, type: 3}
+    audioObjHolder: {fileID: 0}
+    audioObjs: []
+    muted: 0
+  destroyOnLoad: 0
 --- !u!1001 &100100000
 Prefab:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 0}
+  m_RootGameObject: {fileID: 165380}
   m_IsPrefabParent: 1
   m_IsExploded: 1

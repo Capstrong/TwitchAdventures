@@ -12,12 +12,17 @@ public class Oni : GridObject
 		village.villagerCount -= damage;
 		health -= village.villagerCount;
 
-		SoundManager.instance.Play2DSong(clips[Random.Range(0, clips.Length - 1)].name);
+		village.PlayFightSound();
 
 		if ( health <= 0 )
 		{
+			SoundManager.instance.Play2DSong("Victory");
 			GridManager.DeregisterGridObject( this );
 			Destroy( gameObject );
+		}
+		else if(clips.Length > 0)
+		{
+			SoundManager.instance.Play2DSong(clips[Random.Range(0, clips.Length - 1)].name);
 		}
 	}
 }

@@ -56,6 +56,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf34d8e2983d1414c8c350c748e3146d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 68c64b8e582104b0da83e343b287974e, type: 3}
+  - {fileID: 8300000, guid: a79dd69139de14275b0784fd8d141217, type: 3}
   damage: 10
   health: 10
 --- !u!212 &21235956

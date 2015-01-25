@@ -140,7 +140,6 @@ public class VoteManager : SingletonBehaviour<VoteManager>
 				}
 			}
 
-			//Debug.Log(instance.winningVote);
 			instance._votesDirty = true;
 		} );
 	}

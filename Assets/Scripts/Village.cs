@@ -10,9 +10,10 @@ public class Village : SingletonBehaviour<Village>
 
 	private int starvationDecay = 0;
 
+	[SerializeField] AudioClip[] fightSounds;
+
 	[SerializeField]
 	private int _villagerCount;
-	
 	public int villagerCount
 	{
 		get
@@ -79,5 +80,13 @@ public class Village : SingletonBehaviour<Village>
 	{
 		// Do number popup
 		numFood += num;
+	}
+
+	public void PlayFightSound()
+	{
+		if(fightSounds.Length > 0)
+		{
+			SoundManager.instance.Play2DSong(fightSounds[Random.Range(0, fightSounds.Length - 1)].name);
+		}
 	}
 }
