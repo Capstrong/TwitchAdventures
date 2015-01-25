@@ -104,5 +104,7 @@ public class Avatar : GridObject
 			GridObject gridObject = GridManager.Get( newX, newY );
 			gridObject.Interact( GetComponent<Village>() );
 		}
+
+		Village.ConsumeFood();
 	}
 }

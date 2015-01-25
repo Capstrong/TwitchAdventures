@@ -6,31 +6,53 @@ using System.Collections.Generic;
 public class Village : SingletonBehaviour<Village>
 {
 	public List<Villager> villagers = new List<Villager>();
-	public int numVillagers = 0;
 	public int numFood = 0;
 
+	private int starvationDecay = 0;
+
 	[SerializeField]
-	private int _villagers;
+	private int _villagerCount;
 	
 	public int villagerCount
 	{
 		get
 		{
-			return _villagers;
+			return _villagerCount;
 		}
 		
 		set
 		{
-			_villagers = value;
-			villagersDisplay.text = "Villagers: " + _villagers;
+			_villagerCount = value;
+			villagersDisplay.text = "Villagers: " + _villagerCount;
 		}
 	}
 	
 	public Text villagersDisplay;
+	public Text foodDisplay;
 	
 	void Start()
 	{
-		villagersDisplay.text = "Villagers: " + _villagers;
+		villagersDisplay.text = "Villagers: " + _villagerCount;
+	}
+
+	public static void ConsumeFood()
+	{
+		instance._ConsumeFood();
+	}
+
+	private void _ConsumeFood()
+	{
+		if ( numFood > 0 )
+		{
+			numFood -= villagerCount;
+			starvationDecay = 0;
+		}
+		else
+		{
+			villagerCount -= ++starvationDecay;
+		}
+
+		foodDisplay.text = "Food: " + numFood;
 	}
 
 	public int GetClassCount(VillagerClass villagerClass)
@@ -50,7 +72,7 @@ public class Village : SingletonBehaviour<Village>
 	public void AddVillagers(int num)
 	{
 		// Do number popup
-		numVillagers += num;
+		villagerCount += num;
 	}
 
 	public void AddFood(int num)
