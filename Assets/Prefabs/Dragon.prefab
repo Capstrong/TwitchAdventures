@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 435956}
   - 212: {fileID: 21235956}
   - 95: {fileID: 9535956}
+  - 114: {fileID: 11448380}
   m_Layer: 0
   m_Name: Dragon
   m_TagString: Untagged
@@ -44,6 +45,19 @@ Animator:
   m_ApplyRootMotion: 1
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11448380
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 135956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf34d8e2983d1414c8c350c748e3146d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  health: 10
 --- !u!212 &21235956
 SpriteRenderer:
   m_ObjectHideFlags: 1
