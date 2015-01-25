@@ -73,27 +73,31 @@ public class Avatar : GridObject
 
 	public void MovePlayer( VoteManager voteManager )
 	{
-		Vector2 pos = Vector2.zero;
+		int newX = x;
+		int newY = y;
 
 		switch( voteManager.winningVote )
 		{
 		case MoveDirection.North:
-			pos.y++;
+			newY++;
 			break;
 		case MoveDirection.East:
-			pos.x++;
+			newX++;
 			break;
 		case MoveDirection.South:
-			pos.y--;
+			newY--;
 			break;
 		case MoveDirection.West:
-			pos.x--;
+			newX--;
 			break;
 		}
 
-		if(GridManager.IsGridLocationOpen(pos.x, pos.y))
+		if( GridManager.IsGridLocationOpen( newX, newY ) )
 		{
-			transform.position += (Vector3)pos;
+			Vector3 newPos = transform.position;
+			newPos.x = (float)newX;
+			newPos.y = (float)newY;
+			transform.position = newPos;
 		}
 		else
 		{
