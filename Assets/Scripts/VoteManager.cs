@@ -30,7 +30,7 @@ public class VoteManager : SingletonBehaviour<VoteManager>
 	private bool _votesDirty = false;
 	private DateTime _lastTime;
 
-	void Awake()
+	new void Awake()
 	{
 		base.Awake();
 
