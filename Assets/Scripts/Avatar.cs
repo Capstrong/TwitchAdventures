@@ -90,6 +90,8 @@ public class Avatar : GridObject
 		case MoveDirection.West:
 			newX--;
 			break;
+		case MoveDirection.Tie:
+			return;
 		}
 
 		if( GridManager.IsGridLocationOpen( newX, newY ) )
@@ -101,7 +103,8 @@ public class Avatar : GridObject
 		}
 		else
 		{
-			GridManager.Get( x, y ).Interact( GetComponent<Village>() );
+			GridObject gridObject = GridManager.Get( newX, newY );
+			gridObject.Interact( GetComponent<Village>() );
 		}
 	}
 }

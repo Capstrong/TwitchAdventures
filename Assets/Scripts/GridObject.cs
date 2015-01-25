@@ -21,7 +21,7 @@ public class GridObject : MonoBehaviour
 	{
 		get
 		{
-			return (int)( transform.position.x + 0.1f );
+			return Mathf.RoundToInt( transform.position.x );
 		}
 
 		set
@@ -36,7 +36,7 @@ public class GridObject : MonoBehaviour
 	{
 		get
 		{
-			return (int)( transform.position.y + 0.1f );
+			return Mathf.RoundToInt( transform.position.y );
 		}
 
 		set
