@@ -8,10 +8,10 @@ public class Oni : GridObject
 
 	public override void Interact( Village village )
 	{
-		village.numVillagers -= damage;
-		health -= village.numVillagers;
+		village.villagers -= damage;
+		health -= village.villagers;
 
-		if ( health < 0 )
+		if ( health <= 0 )
 		{
 			GridManager.DeregisterGridObject( this );
 			Destroy( gameObject );
