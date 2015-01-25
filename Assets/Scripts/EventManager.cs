@@ -51,13 +51,13 @@ public class EventManager : SingletonBehaviour<EventManager>
 	[SerializeField] float slideTime = 0.3f;
 	Vector3 eventPanelInitPos;
 
-	[SerializeField] Sprite eventIcon;
+	[SerializeField] Image eventImage;
 	[SerializeField] Text eventText;
-	bool showPlayerOptions = false;
+	//bool showPlayerOptions = false;
 
 	GameEvent currentGameEvent;
 
-	string textToRead = "";
+	//string textToRead = "";
 
 	[SerializeField] float eventVoteTime = 10f;
 	[SerializeField] float eventEndWaitTime = 3f;
@@ -77,7 +77,7 @@ public class EventManager : SingletonBehaviour<EventManager>
 		if(Input.GetKeyDown(KeyCode.E))
 		{
 			StopAllCoroutines();
-			StartCoroutine(PlayEventRoutine(gameEvents[0]));
+			PlayEvent(gameEvents[0]);
 		}
 	}
 
@@ -85,6 +85,7 @@ public class EventManager : SingletonBehaviour<EventManager>
 	{
 		if(!currentGameEvent)
 		{
+			eventImage.sprite = gameEvent.sprite;
 			StartCoroutine(PlayEventRoutine(gameEvent));
 		}
 	}
@@ -109,6 +110,7 @@ public class EventManager : SingletonBehaviour<EventManager>
 			slideTimer += Time.deltaTime;
 			yield return 0;
 		}
+		eventPanel.transform.position = endPos;
 
 		if(gameEvent is DynamicEvent)
 		{
@@ -124,72 +126,82 @@ public class EventManager : SingletonBehaviour<EventManager>
 		}
 		else
 		{
+			Debug.Log("Choice Event");
 			VoteManager.instance.StopCoroutine("MoveVote");
 
 			VoteManager.SetLastTime();
 			yield return new WaitForSeconds(eventVoteTime);
 
-			VoteManager.instance.voteCallbacks += EventVoteCallback;
+			VoteManager.instance.voteCallbacks = EventVoteCallback;
 			VoteManager.QueryVotes(true);
 		}
 	}
 
 	void EventVoteCallback(VoteManager voteManager)
 	{
-		Debug.Log(voteManager.winningVote);
+		if(currentGameEvent)
+		{
+			Debug.Log(voteManager.winningVote);
 
-		if((int)voteManager.winningVote < 4)
-		{
-			Debug.LogError("Direction received instead of answer!");
-		}
-		else if(voteManager.winningVote == VoteResponse.Yes)
-		{
-			eventText.text = currentGameEvent.yesResult.text;
-			Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
-			Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
-		}
-		else if(voteManager.winningVote == VoteResponse.No)
-		{
-			eventText.text = currentGameEvent.noResult.text;
-			Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
-			Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
-		}
-		else if(currentGameEvent is ChoiceEvent && 
-		        voteManager.winningVote == VoteResponse.Tie)
-		{
-			ChoiceEvent choiceEvent = (ChoiceEvent)currentGameEvent;
-			eventText.text = choiceEvent.tieResult.text;
+			if((int)voteManager.winningVote < 4)
+			{
+				Debug.LogError("Direction received instead of answer!");
+			}
+			else if(voteManager.winningVote == VoteResponse.Yes)
+			{
+				eventText.text = currentGameEvent.yesResult.text;
+				Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
+				Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
+			}
+			else if(voteManager.winningVote == VoteResponse.No)
+			{
+				eventText.text = currentGameEvent.noResult.text;
+				Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
+				Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
+			}
+			else if(currentGameEvent is ChoiceEvent && 
+			        voteManager.winningVote == VoteResponse.Tie)
+			{
+				ChoiceEvent choiceEvent = (ChoiceEvent)currentGameEvent;
+				eventText.text = choiceEvent.tieResult.text;
 
-			Village.instance.AddVillagers(choiceEvent.tieResult.peopleChange);
-			Village.instance.AddFood(choiceEvent.tieResult.foodChange);
+				Village.instance.AddVillagers(choiceEvent.tieResult.peopleChange);
+				Village.instance.AddFood(choiceEvent.tieResult.foodChange);
+			}
+			
+			StartCoroutine(FinishEvent());
 		}
-		
-		StartCoroutine(FinishEvent());
 	}
 
 	IEnumerator FinishEvent()
 	{
-		Debug.Log("End event");
-
-		yield return new WaitForSeconds(eventEndWaitTime);
-
-		VoteManager.instance.StopAllCoroutines();
-		VoteManager.instance.StartCoroutine("MoveVote");
-		
-		// Slide Panel Out
-		Vector3 startPos = eventPanelInitPos + new Vector3(0f, panelMoveDist, 0f);
-		Vector3 endPos = eventPanelInitPos;
-		
-		float slideTimer = 0f;
-		while(slideTimer < slideTime)
+		if(currentGameEvent)
 		{
-			eventPanel.transform.position = Vector3.Lerp(startPos, endPos, slideTimer/slideTime);
-			slideTimer += Time.deltaTime;
-			yield return 0;
-		}
+			Debug.Log("End event");
 
-		currentGameEvent = null;
-		VoteManager.instance.voteCallbacks -= EventVoteCallback;
-		StopAllCoroutines();
+			yield return new WaitForSeconds(eventEndWaitTime);
+
+			VoteManager.instance.StopAllCoroutines();
+			VoteManager.instance.StartCoroutine("MoveVote");
+			
+			// Slide Panel Out
+			Vector3 startPos = eventPanelInitPos + new Vector3(0f, panelMoveDist, 0f);
+			Vector3 endPos = eventPanelInitPos;
+			
+			float slideTimer = 0f;
+			while(slideTimer < slideTime)
+			{
+				eventPanel.transform.position = Vector3.Lerp(startPos, endPos, slideTimer/slideTime);
+				slideTimer += Time.deltaTime;
+				yield return 0;
+			}
+			eventPanel.transform.position = endPos;
+
+			currentGameEvent = null;
+			VoteManager.instance.voteCallbacks = null;
+			VoteManager.instance.voteCallbacks = VoteManager.instance.avatar.MovePlayer;
+
+			StopAllCoroutines();
+		}
 	}
 }

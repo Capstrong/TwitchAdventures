@@ -11,6 +11,8 @@ public class VoteManager : SingletonBehaviour<VoteManager>
 
 	public VoteCallback voteCallbacks = delegate( VoteManager voteManager ) { };
 
+	public Avatar avatar;
+
 	[Tooltip( "Interval between queries in seconds." )]
 	public float interval;
 
@@ -30,7 +32,7 @@ public class VoteManager : SingletonBehaviour<VoteManager>
 	private bool _votesDirty = false;
 	private DateTime _lastTime;
 
-	void Awake()
+	new void Awake()
 	{
 		base.Awake();
 
@@ -52,8 +54,6 @@ public class VoteManager : SingletonBehaviour<VoteManager>
 			downDisplay.text = "South: " + _votes[VoteResponse.South];
 			eastDisplay.text = "East: " + _votes[VoteResponse.East];
 			westDisplay.text = "West: " + _votes[VoteResponse.West];
-			//yesDisplay.text = "Yes: " + _votes[VoteResponse.Yes];
-			//noDisplay.text = "No: " + _votes[VoteResponse.No];
 			winnerDisplay.text = "Winner: " + winningVote;
 
 			voteCallbacks( this );
@@ -124,7 +124,8 @@ public class VoteManager : SingletonBehaviour<VoteManager>
 					}
 				}
 			}
-			
+
+			//Debug.Log(instance.winningVote);
 			instance._votesDirty = true;
 		} );
 	}

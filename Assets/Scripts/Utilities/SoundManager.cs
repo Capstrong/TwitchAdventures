@@ -52,7 +52,7 @@ public class SoundManager : SingletonBehaviour<SoundManager>
 	[SerializeField] bool destroyOnLoad;
 
     // Use this for initialization
-    void Awake()
+    new void Awake()
     {
 		base.Awake();
 

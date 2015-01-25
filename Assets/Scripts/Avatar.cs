@@ -16,15 +16,13 @@ public class Avatar : GridObject
 {
 	public VoteManager voteManager;
 
-	[SerializeField] float inputTime = 0.2f;
-	float inputTimer = 0f;
-
 	[SerializeField] Camera cam;
 	[SerializeField] float camFollowSpeed = 5f;
 
 	void Start()
 	{
 		voteManager.voteCallbacks += MovePlayer;
+		voteManager.avatar = this;
 	}
 
 	//void Update()
