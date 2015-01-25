@@ -325,8 +325,9 @@ GameObject:
   - 4: {fileID: 403707560}
   - 212: {fileID: 403707559}
   - 114: {fileID: 403707561}
+  - 114: {fileID: 403707562}
   m_Layer: 0
-  m_Name: Avatar_Large
+  m_Name: Village
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -365,7 +366,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
 --- !u!114 &403707561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,10 +378,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1935f0e8a62143b787f4b3e7331546e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  x: 0
+  y: 0
   voteManager: {fileID: 1423732088}
   inputTime: .300000012
   cam: {fileID: 706662063}
   camFollowSpeed: 2
+--- !u!114 &403707562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 403707558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af9bd024389fd2f44aed82ca03bafdec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numVillagers: 500
 --- !u!1 &706662059
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,8 +551,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_Father: {fileID: 1423732089}
+  m_RootOrder: 1
 --- !u!1 &1280400192
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,7 +657,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1992555880}
+  - {fileID: 774286896}
   m_Father: {fileID: 1564917283}
   m_RootOrder: 1
 --- !u!1 &1560808277
@@ -712,7 +729,7 @@ Transform:
   - {fileID: 1560808278}
   - {fileID: 1423732089}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 4
 --- !u!1 &1900320696
 GameObject:
   m_ObjectHideFlags: 0
@@ -929,8 +946,8 @@ RectTransform:
   - {fileID: 220032890}
   - {fileID: 1900320697}
   - {fileID: 1280400195}
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_Father: {fileID: 1423732089}
+  m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -1053,4 +1070,4 @@ Transform:
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
