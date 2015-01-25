@@ -18,6 +18,8 @@ public class VoteManager : SingletonBehaviour<VoteManager>
 	public Text downDisplay;
 	public Text eastDisplay;
 	public Text westDisplay;
+	public Text yesDisplay;
+	public Text noDisplay;
 	public Text winnerDisplay;
 
 	[HideInInspector]
@@ -50,6 +52,8 @@ public class VoteManager : SingletonBehaviour<VoteManager>
 			downDisplay.text = "South: " + _votes[VoteResponse.South];
 			eastDisplay.text = "East: " + _votes[VoteResponse.East];
 			westDisplay.text = "West: " + _votes[VoteResponse.West];
+			yesDisplay.text = "Yes: " + _votes[VoteResponse.Yes];
+			noDisplay.text = "No: " + _votes[VoteResponse.No];
 			winnerDisplay.text = "Winner: " + winningVote;
 
 			voteCallbacks( this );
@@ -70,7 +74,7 @@ public class VoteManager : SingletonBehaviour<VoteManager>
 	{
 		while ( true )
 		{
-			QueryVotes();
+			QueryVotes(false);
 			SetLastTime();
 
 			yield return new WaitForSeconds( interval );
@@ -82,7 +86,7 @@ public class VoteManager : SingletonBehaviour<VoteManager>
 		instance._lastTime = DateTime.UtcNow;
 	}
 
-	public static void QueryVotes()
+	public static void QueryVotes(bool eventChoice)
 	{
 		ParseQuery<ParseObject> query = ParseObject.GetQuery( "Vote" )
 			.WhereGreaterThan( "createdAt", instance._lastTime );
@@ -101,17 +105,22 @@ public class VoteManager : SingletonBehaviour<VoteManager>
 					instance._countedVotes.Add( vote.ObjectId );
 					
 					VoteResponse voteType = (VoteResponse)Enum.Parse( typeof( VoteResponse ), vote.Get<String>("vote") );
-					++instance._votes[voteType];
-					
-					int voteCount = instance._votes[voteType];
-					if ( voteCount > mostVotes )
+
+					if((eventChoice && (voteType != VoteResponse.Yes || voteType != VoteResponse.No)) ||
+					   (!eventChoice && (voteType != VoteResponse.No && voteType != VoteResponse.Yes)))
 					{
-						instance.winningVote = voteType;
-						mostVotes = voteCount;
-					}
-					else if ( voteCount == mostVotes )
-					{
-						instance.winningVote = VoteResponse.Tie;
+						++instance._votes[voteType];
+						
+						int voteCount = instance._votes[voteType];
+						if ( voteCount > mostVotes )
+						{
+							instance.winningVote = voteType;
+							mostVotes = voteCount;
+						}
+						else if ( voteCount == mostVotes )
+						{
+							instance.winningVote = VoteResponse.Tie;
+						}
 					}
 				}
 			}

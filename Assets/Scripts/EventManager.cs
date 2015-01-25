@@ -153,7 +153,7 @@ public class EventManager : MonoBehaviour
 			yield return new WaitForSeconds(eventVoteTime);
 
 			VoteManager.instance.voteCallbacks += EventVoteCallback;
-			VoteManager.QueryVotes();
+			VoteManager.QueryVotes(true);
 		}
 	}
 
