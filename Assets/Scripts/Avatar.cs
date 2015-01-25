@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum VoteResponse
+public enum MoveDirection
 {
-	North 	= 0,
-	East	= 1,
-	South	= 2,
-	West	= 3,
-	Yes		= 4,
-	No	 	= 5,
-	Tie		= 6
+	North,
+	East,
+	South,
+	West,
+	Yes,
+	No,
+	Tie
 }
 
 public class Avatar : GridObject
@@ -22,23 +22,15 @@ public class Avatar : GridObject
 	[SerializeField] Camera cam;
 	[SerializeField] float camFollowSpeed = 5f;
 
-	[SerializeField] bool debug = false;
-
 	void Start()
 	{
+		voteManager.voteCallbacks += MovePlayer;
 	}
 
-	void Update()
-	{
-		if(debug)
-		{
-			Movement();
-		}
-		else
-		{
-			voteManager.voteCallbacks = MovePlayer;
-		}
-	}
+	//void Update()
+	//{
+	//	Movement();
+	//}
 
 	void FixedUpdate()
 	{
@@ -54,88 +46,65 @@ public class Avatar : GridObject
 		                                      Time.deltaTime * camFollowSpeed);
 	}
 
-	void Movement()
-	{
-		float hInput = Input.GetAxis("Horizontal");
-		float vInput = Input.GetAxis("Vertical");
+	//void Movement()
+	//{
+	//	float hInput = Input.GetAxis("Horizontal");
+	//	float vInput = Input.GetAxis("Vertical");
 		
-		if(Mathf.Abs(hInput) > WadeUtils.SMALLNUMBER)
-		{
-			if(inputTimer > inputTime)
-			{
-				MovePlayer(hInput > 0f ? VoteResponse.East : VoteResponse.West);
-				inputTimer = 0f;
-			}
-		}
-		else if(Mathf.Abs(vInput) > WadeUtils.SMALLNUMBER)
-		{
-			if(inputTimer > inputTime)
-			{
-				MovePlayer(vInput > 0f ? VoteResponse.North : VoteResponse.South);
-				inputTimer = 0f;
-			}
-		}
+	//	if(Mathf.Abs(hInput) > WadeUtils.SMALLNUMBER)
+	//	{
+	//		if(inputTimer > inputTime)
+	//		{
+	//			MovePlayer(hInput > 0f ? MoveDirection.East : MoveDirection.West);
+	//			inputTimer = 0f;
+	//		}
+	//	}
+	//	else if(Mathf.Abs(vInput) > WadeUtils.SMALLNUMBER)
+	//	{
+	//		if(inputTimer > inputTime)
+	//		{
+	//			MovePlayer(vInput > 0f ? MoveDirection.North : MoveDirection.South);
+	//			inputTimer = 0f;
+	//		}
+	//	}
 		
-		inputTimer += Time.deltaTime;
-	}
-
-	public void MovePlayer(VoteResponse moveDirection)
-	{
-		Vector2 pos = Vector2.zero;
-		
-		switch( moveDirection )
-		{
-		case VoteResponse.North:
-			pos.y++;
-			break;
-		case VoteResponse.East:
-			pos.x++;
-			break;
-		case VoteResponse.South:
-			pos.y--;
-			break;
-		case VoteResponse.West:
-			pos.x--;
-			break;
-		}
-		
-		if(GridManager.IsGridLocationOpen(pos.x, pos.y))
-		{
-			transform.position += (Vector3)pos;
-		}
-		else
-		{
-			// Shake chores
-		}
-	}
+	//	inputTimer += Time.deltaTime;
+	//}
 
 	public void MovePlayer( VoteManager voteManager )
 	{
-		Vector2 pos = Vector2.zero;
+		int newX = x;
+		int newY = y;
 
 		switch( voteManager.winningVote )
 		{
-		case VoteResponse.North:
-			pos.y++;
+		case MoveDirection.North:
+			newY++;
 			break;
-		case VoteResponse.East:
-			pos.x++;
+		case MoveDirection.East:
+			newX++;
 			break;
-		case VoteResponse.South:
-			pos.y--;
+		case MoveDirection.South:
+			newY--;
 			break;
-		case VoteResponse.West:
-			pos.x--;
+		case MoveDirection.West:
+			newX--;
 			break;
+		case MoveDirection.Tie:
+			return;
 		}
 
-		if(GridManager.IsGridLocationOpen(pos.x, pos.y))
+		if( GridManager.IsGridLocationOpen( newX, newY ) )
 		{
-			transform.position += (Vector3)pos;
+			Vector3 newPos = transform.position;
+			newPos.x = (float)newX;
+			newPos.y = (float)newY;
+			transform.position = newPos;
 		}
 		else
 		{
-			GridManager.Get( x, y ).Interact( GetComponent<Village>() );
+			GridObject gridObject = GridManager.Get( newX, newY );
+			gridObject.Interact( GetComponent<Village>() );
 		}
 	}
 }
