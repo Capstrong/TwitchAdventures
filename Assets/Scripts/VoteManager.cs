@@ -21,33 +21,35 @@ public class VoteManager : SingletonBehaviour<VoteManager>
 	public Text winnerDisplay;
 
 	[HideInInspector]
-	public MoveDirection winningVote;
+	public VoteResponse winningVote;
 
-	private Dictionary<MoveDirection, int> _votes;
+	private Dictionary<VoteResponse, int> _votes;
 	private HashSet<String> _countedVotes = new HashSet<string>();
 	private bool _votesDirty = false;
 	private DateTime _lastTime;
 
 	void Awake()
 	{
+		base.Awake();
+
 		_lastTime = DateTime.UtcNow;
-		_votes = new Dictionary<MoveDirection,int>();
+		_votes = new Dictionary<VoteResponse,int>();
 		ResetVotes();
 	}
 
 	void Start()
 	{
-		StartCoroutine( QueryVotes() );
+		StartCoroutine("MoveVote");
 	}
 
 	void Update()
 	{
 		if ( _votesDirty )
 		{
-			upDisplay.text = "North: " + _votes[MoveDirection.North];
-			downDisplay.text = "South: " + _votes[MoveDirection.South];
-			eastDisplay.text = "East: " + _votes[MoveDirection.East];
-			westDisplay.text = "West: " + _votes[MoveDirection.West];
+			upDisplay.text = "North: " + _votes[VoteResponse.North];
+			downDisplay.text = "South: " + _votes[VoteResponse.South];
+			eastDisplay.text = "East: " + _votes[VoteResponse.East];
+			westDisplay.text = "West: " + _votes[VoteResponse.West];
 			winnerDisplay.text = "Winner: " + winningVote;
 
 			voteCallbacks( this );
@@ -58,54 +60,63 @@ public class VoteManager : SingletonBehaviour<VoteManager>
 
 	public void ResetVotes()
 	{
-		foreach ( MoveDirection MoveDirection in (MoveDirection[])Enum.GetValues( typeof( MoveDirection ) ) )
+		foreach ( VoteResponse MoveDirection in (VoteResponse[])Enum.GetValues( typeof( VoteResponse ) ) )
 		{
 			_votes[MoveDirection] = 0;
 		}
 	}
 
-	public IEnumerator QueryVotes()
+	public IEnumerator MoveVote()
 	{
 		while ( true )
 		{
-			ParseQuery<ParseObject> query = ParseObject.GetQuery( "Vote" )
-				.WhereGreaterThan( "createdAt", _lastTime );
-			query.FindAsync().ContinueWith( t =>
-			{
-				ResetVotes();
-
-				winningVote = MoveDirection.Tie;
-				int mostVotes = 0;
-
-				IEnumerable<ParseObject> results = t.Result;
-				foreach ( ParseObject vote in results )
-				{
-					if ( !_countedVotes.Contains( vote.ObjectId ) )
-					{
-						_countedVotes.Add( vote.ObjectId );
-
-						MoveDirection voteType = (MoveDirection)Enum.Parse( typeof( MoveDirection ), vote.Get<String>("vote") );
-						++_votes[voteType];
-
-						int voteCount = _votes[voteType];
-						if ( voteCount > mostVotes )
-						{
-							winningVote = voteType;
-							mostVotes = voteCount;
-						}
-						else if ( voteCount == mostVotes )
-						{
-							winningVote = MoveDirection.Tie;
-						}
-					}
-				}
-
-				_votesDirty = true;
-			} );
-
-			_lastTime = DateTime.UtcNow;
+			QueryVotes();
+			SetLastTime();
 
 			yield return new WaitForSeconds( interval );
 		}
+	}
+
+	public static void SetLastTime()
+	{
+		instance._lastTime = DateTime.UtcNow;
+	}
+
+	public static void QueryVotes()
+	{
+		ParseQuery<ParseObject> query = ParseObject.GetQuery( "Vote" )
+			.WhereGreaterThan( "createdAt", instance._lastTime );
+		query.FindAsync().ContinueWith( t =>
+		{
+			instance.ResetVotes();
+			
+			instance.winningVote = VoteResponse.Tie;
+			int mostVotes = 0;
+			
+			IEnumerable<ParseObject> results = t.Result;
+			foreach ( ParseObject vote in results )
+			{
+				if ( !instance._countedVotes.Contains( vote.ObjectId ) )
+				{
+					instance._countedVotes.Add( vote.ObjectId );
+					
+					VoteResponse voteType = (VoteResponse)Enum.Parse( typeof( VoteResponse ), vote.Get<String>("vote") );
+					++instance._votes[voteType];
+					
+					int voteCount = instance._votes[voteType];
+					if ( voteCount > mostVotes )
+					{
+						instance.winningVote = voteType;
+						mostVotes = voteCount;
+					}
+					else if ( voteCount == mostVotes )
+					{
+						instance.winningVote = VoteResponse.Tie;
+					}
+				}
+			}
+			
+			instance._votesDirty = true;
+		} );
 	}
 }

@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum MoveDirection
+public enum VoteResponse
 {
-	North,
-	East,
-	South,
-	West,
-	Yes,
-	No,
-	Tie
+	North 	= 0,
+	East	= 1,
+	South	= 2,
+	West	= 3,
+	Yes		= 4,
+	No	 	= 5,
+	Tie		= 6
 }
 
 public class Avatar : GridObject
@@ -63,7 +63,7 @@ public class Avatar : GridObject
 		{
 			if(inputTimer > inputTime)
 			{
-				MovePlayer(hInput > 0f ? MoveDirection.East : MoveDirection.West);
+				MovePlayer(hInput > 0f ? VoteResponse.East : VoteResponse.West);
 				inputTimer = 0f;
 			}
 		}
@@ -71,7 +71,7 @@ public class Avatar : GridObject
 		{
 			if(inputTimer > inputTime)
 			{
-				MovePlayer(vInput > 0f ? MoveDirection.North : MoveDirection.South);
+				MovePlayer(vInput > 0f ? VoteResponse.North : VoteResponse.South);
 				inputTimer = 0f;
 			}
 		}
@@ -79,27 +79,27 @@ public class Avatar : GridObject
 		inputTimer += Time.deltaTime;
 	}
 
-	public void MovePlayer(MoveDirection moveDirection)
+	public void MovePlayer(VoteResponse moveDirection)
 	{
 		Vector2 pos = Vector2.zero;
 		
 		switch( moveDirection )
 		{
-		case MoveDirection.North:
+		case VoteResponse.North:
 			pos.y++;
 			break;
-		case MoveDirection.East:
+		case VoteResponse.East:
 			pos.x++;
 			break;
-		case MoveDirection.South:
+		case VoteResponse.South:
 			pos.y--;
 			break;
-		case MoveDirection.West:
+		case VoteResponse.West:
 			pos.x--;
 			break;
 		}
 		
-		if(GridManager.instance.IsGridLocationOpen(pos.x, pos.y))
+		if(GridManager.IsGridLocationOpen(pos.x, pos.y))
 		{
 			transform.position += (Vector3)pos;
 		}
@@ -115,16 +115,16 @@ public class Avatar : GridObject
 
 		switch( voteManager.winningVote )
 		{
-		case MoveDirection.North:
+		case VoteResponse.North:
 			pos.y++;
 			break;
-		case MoveDirection.East:
+		case VoteResponse.East:
 			pos.x++;
 			break;
-		case MoveDirection.South:
+		case VoteResponse.South:
 			pos.y--;
 			break;
-		case MoveDirection.West:
+		case VoteResponse.West:
 			pos.x--;
 			break;
 		}

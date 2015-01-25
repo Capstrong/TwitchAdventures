@@ -7,14 +7,14 @@ public enum VillagerClass
 	Warrior = 1,
 	Royalty = 2,
 	Craftsmen = 3,
-	Criminal = 4
+	Criminal = 4,
+	Elderly = 5,
+	Child = 6
 }
 
 [System.Serializable]
 public struct Villager 
 {
-	VillagerClass villagerClass;
-	string name;
-	bool female;
-	int age;
+	public string name;
+	public VillagerClass villagerClass;
 }

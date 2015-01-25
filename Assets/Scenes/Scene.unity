@@ -384,6 +384,7 @@ MonoBehaviour:
   inputTime: .300000012
   cam: {fileID: 706662063}
   camFollowSpeed: 2
+  debug: 0
 --- !u!114 &403707562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,7 +396,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af9bd024389fd2f44aed82ca03bafdec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  villagers: []
   numVillagers: 500
+  numFood: 0
 --- !u!1 &706662059
 GameObject:
   m_ObjectHideFlags: 0

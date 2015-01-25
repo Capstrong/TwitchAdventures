@@ -26,7 +26,6 @@ public struct EventResult
 [System.Serializable]
 public class GameEvent : ScriptableObject
 {
-	public string name;
 	public Sprite sprite;
 	public string text;
 	public EventResult yesResult;
@@ -49,7 +48,7 @@ public class ChoiceEvent : GameEvent
 
 public struct EventCondition
 {
-	public string tag;
+	public VillagerClass villagerClass;
 	public CompareType compareType;
 	public int value;
 };
@@ -59,8 +58,10 @@ public class DynamicEvent : GameEvent
 {
 	public EventCondition eventCondition;
 
-	public bool Success(int compareValue)
+	public bool Success(Village village)
 	{
+		int compareValue = village.GetClassCount(eventCondition.villagerClass);
+
 		switch(eventCondition.compareType)
 		{
 		case CompareType.Equal:
@@ -95,15 +96,22 @@ public class EventManager : MonoBehaviour
 	[SerializeField] Image eventPanel;
 	[SerializeField] float panelMoveDist = 1f;
 	[SerializeField] float slideTime = 0.3f;
+	Vector3 eventPanelInitPos;
 
 	[SerializeField] Sprite eventIcon;
 	[SerializeField] Text eventText;
 	bool showPlayerOptions = false;
 
+	GameEvent currentGameEvent;
+
 	string textToRead = "";
+
+	[SerializeField] float eventVoteTime = 10f;
+	[SerializeField] float eventEndWaitTime = 3f;
 
 	void Awake()
 	{
+		eventPanelInitPos = eventPanel.transform.position;
 	}
 
 	IEnumerator PlayEvent(GameEvent gameEvent)
@@ -112,8 +120,8 @@ public class EventManager : MonoBehaviour
 		// Wait for song to end
 
 		// Slide Panel In
-		Vector3 startPos = eventPanel.transform.position;
-		Vector3 endPos = eventPanel.transform.position + new Vector3(0f, panelMoveDist, 0f);
+		Vector3 startPos = eventPanelInitPos;
+		Vector3 endPos = eventPanelInitPos + new Vector3(0f, panelMoveDist, 0f);
 
 		float slideTimer = 0f;
 		while(slideTimer < slideTime)
@@ -123,21 +131,74 @@ public class EventManager : MonoBehaviour
 			yield return 0;
 		}
 
+		currentGameEvent = gameEvent;
+
 		if(gameEvent is DynamicEvent)
 		{
-			DynamicEvent dynamicEvent = (DynamicEvent)gameEvent;
-			//if(dynamicEvent.Success())
+//			DynamicEvent dynamicEvent = (DynamicEvent)gameEvent;
+//			if(dynamicEvent.Success(village))
+//			{
+//
+//			}
+//			else
+//			{
+//
+//			}
 		}
 		else
 		{
+			VoteManager.instance.StopCoroutine("MoveVote");
 
+			VoteManager.SetLastTime();
+			yield return new WaitForSeconds(eventVoteTime);
+
+			VoteManager.instance.voteCallbacks += EventVoteCallback;
+			VoteManager.QueryVotes();
 		}
+	}
 
+	void EventVoteCallback(VoteManager voteManager)
+	{
+		if((int)voteManager.winningVote < 4)
+		{
+			Debug.LogError("Direction received instead of answer!");
+		}
+		else if(voteManager.winningVote == VoteResponse.Yes)
+		{
+			eventText.text = currentGameEvent.yesResult.text;
+			Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
+			Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
+		}
+		else if(voteManager.winningVote == VoteResponse.No)
+		{
+			eventText.text = currentGameEvent.noResult.text;
+			Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
+			Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
+		}
+		else if(currentGameEvent is ChoiceEvent && 
+		        voteManager.winningVote == VoteResponse.Tie)
+		{
+			ChoiceEvent choiceEvent = (ChoiceEvent)currentGameEvent;
+			eventText.text = choiceEvent.tieResult.text;
+
+			Village.instance.AddVillagers(choiceEvent.tieResult.peopleChange);
+			Village.instance.AddFood(choiceEvent.tieResult.foodChange);
+		}
+		
+		StartCoroutine(FinishEvent());
+	}
+
+	IEnumerator FinishEvent()
+	{
+		yield return new WaitForSeconds(eventEndWaitTime);
+		
+		VoteManager.instance.StartCoroutine("MoveVote");
+		
 		// Slide Panel Out
-		startPos = eventPanel.transform.position;
-		endPos = eventPanel.transform.position - new Vector3(0f, panelMoveDist, 0f);
-
-		slideTimer = 0f;
+		Vector3 startPos = eventPanelInitPos + new Vector3(0f, panelMoveDist, 0f);
+		Vector3 endPos = eventPanelInitPos;
+		
+		float slideTimer = 0f;
 		while(slideTimer < slideTime)
 		{
 			eventPanel.transform.position = Vector3.Lerp(startPos, endPos, slideTimer/slideTime);

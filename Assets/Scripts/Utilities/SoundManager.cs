@@ -56,7 +56,7 @@ public class SoundManager : SingletonBehaviour<SoundManager>
     {
 		if(!destroyOnLoad)
 		{
-        	instance.DontDestroyElseKill(this);
+        	DontDestroyElseKill(this);
 		}
 
 		foreach(AudioPool audioPool in audioPools)
