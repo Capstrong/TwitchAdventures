@@ -32,6 +32,21 @@ public class VoteManager : SingletonBehaviour<VoteManager>
 	private bool _votesDirty = false;
 	private DateTime _lastTime;
 
+	public float noVotePercentage
+	{
+		get 
+		{
+			if(_votes[VoteResponse.Yes] + _votes[VoteResponse.No] == 0)
+			{
+				return 0.5f;
+			}
+			else
+			{
+				return (float)_votes[VoteResponse.No]/(float)(_votes[VoteResponse.Yes] + _votes[VoteResponse.No]);
+			}
+		}
+	}
+
 	new void Awake()
 	{
 		base.Awake();

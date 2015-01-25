@@ -10,14 +10,16 @@ public enum AudioType
 	Sound = 0,
 	Song = 1
 }
+
+[System.Serializable]
 public class AudioPool
 {
 	public string poolName;
 	public AudioType poolType;
 	public AudioClip[] audioClips;
-
-	public GameObject audioObjHolder;
-	public List<AudioSource> audioObjs;
+	
+	[HideInInspector] public GameObject audioObjHolder;
+	[HideInInspector] public List<AudioSource> audioObjs;
 
 	public Dictionary<string, AudioClip> clipList = new Dictionary<string, AudioClip>();
 	public bool muted = false;

@@ -45,10 +45,11 @@ public class EventManager : SingletonBehaviour<EventManager>
 {
 	[SerializeField] GameEvent[] gameEvents;
 	public Dictionary<string, GameEvent> eventMap = new Dictionary<string, GameEvent>();
-
+	
 	[SerializeField] Transform eventPanel;
 	[SerializeField] float panelMoveDist = 1f;
 	[SerializeField] float slideTime = 0.3f;
+	[SerializeField] Slider voteSlider; 
 	Vector3 eventPanelInitPos;
 
 	[SerializeField] Image eventImage;
@@ -94,6 +95,9 @@ public class EventManager : SingletonBehaviour<EventManager>
 	{
 		Debug.Log("Do Event");
 
+		AudioSource source = SoundManager.instance.Play2DSong("EventPopUp");
+		yield return new WaitForSeconds(source.clip.length - 3f);
+
 		currentGameEvent = gameEvent;
 
 		// Play event sound
@@ -114,6 +118,7 @@ public class EventManager : SingletonBehaviour<EventManager>
 
 		if(gameEvent is DynamicEvent)
 		{
+			voteSlider.enabled = false;
 //			DynamicEvent dynamicEvent = (DynamicEvent)gameEvent;
 //			if(dynamicEvent.Success(village))
 //			{
@@ -127,6 +132,7 @@ public class EventManager : SingletonBehaviour<EventManager>
 		else
 		{
 			Debug.Log("Choice Event");
+			voteSlider.enabled = true;
 			VoteManager.instance.StopCoroutine("MoveVote");
 
 			VoteManager.SetLastTime();
@@ -149,12 +155,16 @@ public class EventManager : SingletonBehaviour<EventManager>
 			}
 			else if(voteManager.winningVote == VoteResponse.Yes)
 			{
+				SoundManager.instance.Play2DSong("HoorayChildren");
+
 				eventText.text = currentGameEvent.yesResult.text;
 				Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
 				Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
 			}
 			else if(voteManager.winningVote == VoteResponse.No)
 			{
+				SoundManager.instance.Play2DSong("KidsBooing");
+
 				eventText.text = currentGameEvent.noResult.text;
 				Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
 				Village.instance.AddVillagers(currentGameEvent.noResult.peopleChange);
@@ -168,7 +178,8 @@ public class EventManager : SingletonBehaviour<EventManager>
 				Village.instance.AddVillagers(choiceEvent.tieResult.peopleChange);
 				Village.instance.AddFood(choiceEvent.tieResult.foodChange);
 			}
-			
+
+			voteSlider.value = voteManager.noVotePercentage;
 			StartCoroutine(FinishEvent());
 		}
 	}
