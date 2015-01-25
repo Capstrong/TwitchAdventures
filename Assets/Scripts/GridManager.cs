@@ -2,60 +2,35 @@
 using System.Collections;
 using System.Collections.Generic;
 
-[System.Serializable]
-public class GridLocation
-{
-	public int x;
-	public int y;
-
-	public GridLocation(int inX, int inY)
-	{
-		x = inX;
-		y = inY;
-	}
-
-	public GridLocation(Vector2 inVec)
-	{
-		x = (int)inVec.x;
-		y = (int)inVec.y;
-	}
-}
-
 public class GridManager : SingletonBehaviour<GridManager> 
 {
-	List<GridLocation> gridLocations = new List<GridLocation>();
+	private List<GridObject> gridObjects = new List<GridObject>();
 
-	public void RegisterGridLocation(GridLocation gridLocation)
+	public static void RegisterGridObject( GridObject gridObject )
 	{
-		if(!gridLocations.Contains(gridLocation))
+		if( !instance.gridObjects.Contains( gridObject ) )
 		{
-			gridLocations.Add(gridLocation);
+			instance.gridObjects.Add( gridObject );
 		}
 	}
 
-	public void RegisterGridLocation(int x, int y)
+	public static void DeregisterGridObject( GridObject gridObject )
 	{
-		GridLocation gridLocation = new GridLocation(x, y);
-		if(!gridLocations.Contains(gridLocation))
-		{
-			gridLocations.Add(gridLocation);
-		}
+		instance.gridObjects.Remove( gridObject );
 	}
 
-	public bool IsGridLocationOpen(GridLocation gridLocation)
+	public static bool IsGridLocationOpen( GridObject gridObject )
 	{
-		return !gridLocations.Contains(gridLocation);
+		return !instance.gridObjects.Contains( gridObject );
 	}
 
-	public bool IsGridLocationOpen(int x, int y)
+	public static bool IsGridLocationOpen( int x, int y )
 	{
-		GridLocation gridLocation = new GridLocation(x, y);
-		return !gridLocations.Contains(gridLocation);
+		return instance.gridObjects.Find( gridObject => gridObject.x == x && gridObject.y == y ) == null;
 	}
 
-	public bool IsGridLocationOpen(float x, float y)
+	public static GridObject Get( int x, int y )
 	{
-		GridLocation gridLocation = new GridLocation((int)x, (int)y);
-		return !gridLocations.Contains(gridLocation);
+		return instance.gridObjects.Find( gridObject => gridObject.x == x && gridObject.y == y );
 	}
 }
