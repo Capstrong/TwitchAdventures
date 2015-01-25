@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: TestChoiceEvent
+  m_EditorClassIdentifier: Assembly-CSharp::ChoiceEvent
+  sprite: {fileID: 21300000, guid: c76c47bf93b0e4e43aaba957687c678c, type: 3}
+  text: This is a story thing, I guess!
+  yesResult:
+    text: This is the yes text.
+    foodChange: 50
+    peopleChange: -15
+  noResult:
+    text: This is the no text.
+    foodChange: 15
+    peopleChange: 25
+  tieResult:
+    text: This is the tie text.
+    foodChange: -15
+    peopleChange: -50

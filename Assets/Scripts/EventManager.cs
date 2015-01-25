@@ -16,6 +16,7 @@ public enum CompareType
 	Equal		 	= 4
 }
 
+[System.Serializable]
 public struct EventResult
 {
 	public string text;
@@ -46,6 +47,7 @@ public class ChoiceEvent : GameEvent
 	#endif
 };
 
+[System.Serializable]
 public struct EventCondition
 {
 	public VillagerClass villagerClass;
@@ -93,7 +95,7 @@ public class EventManager : MonoBehaviour
 	[SerializeField] GameEvent[] gameEvents;
 	public Dictionary<string, GameEvent> eventMap = new Dictionary<string, GameEvent>();
 
-	[SerializeField] Image eventPanel;
+	[SerializeField] Transform eventPanel;
 	[SerializeField] float panelMoveDist = 1f;
 	[SerializeField] float slideTime = 0.3f;
 	Vector3 eventPanelInitPos;
@@ -109,9 +111,23 @@ public class EventManager : MonoBehaviour
 	[SerializeField] float eventVoteTime = 10f;
 	[SerializeField] float eventEndWaitTime = 3f;
 
-	void Awake()
+	void Start()
 	{
 		eventPanelInitPos = eventPanel.transform.position;
+	}
+
+	void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.Escape))
+		{
+			Application.Quit();
+		}
+		
+		if(Input.GetKeyDown(KeyCode.E))
+		{
+			StopAllCoroutines();
+			StartCoroutine(PlayEvent(gameEvents[0]));
+		}
 	}
 
 	IEnumerator PlayEvent(GameEvent gameEvent)
@@ -204,14 +220,6 @@ public class EventManager : MonoBehaviour
 			eventPanel.transform.position = Vector3.Lerp(startPos, endPos, slideTimer/slideTime);
 			slideTimer += Time.deltaTime;
 			yield return 0;
-		}
-	}
-	
-	void Update()
-	{
-		if(Input.GetKeyDown(KeyCode.Escape))
-		{
-			Application.Quit();
 		}
 	}
 }
