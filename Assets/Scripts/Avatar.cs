@@ -7,10 +7,12 @@ public enum MoveDirection
 	East,
 	South,
 	West,
+	Yes,
+	No,
 	Tie
 }
 
-public class Avatar : MonoBehaviour 
+public class Avatar : GridObject
 {
 	public VoteManager voteManager;
 
@@ -127,13 +129,13 @@ public class Avatar : MonoBehaviour
 			break;
 		}
 
-		if(GridManager.instance.IsGridLocationOpen(pos.x, pos.y))
+		if(GridManager.IsGridLocationOpen(pos.x, pos.y))
 		{
 			transform.position += (Vector3)pos;
 		}
 		else
 		{
-			// Shake chores
+			GridManager.Get( x, y ).Interact( GetComponent<Village>() );
 		}
 	}
 }
