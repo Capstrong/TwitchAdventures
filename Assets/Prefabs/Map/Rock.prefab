@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 488182}
   - 212: {fileID: 21288182}
   - 114: {fileID: 11406330}
+  - 114: {fileID: 11445320}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Untagged
@@ -42,6 +43,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 1
   depth: 0
+--- !u!114 &11445320
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 188182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af2f5671bddec234ca28f3ff5664ab54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &21288182
 SpriteRenderer:
   m_ObjectHideFlags: 1
