@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 414408}
   - 212: {fileID: 21214408}
   - 114: {fileID: 11496820}
+  - 114: {fileID: 11406330}
   m_Layer: 0
   m_Name: Apple Tree
   m_TagString: Untagged
@@ -44,6 +45,17 @@ Animator:
   m_ApplyRootMotion: 1
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11406330
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 114408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 898bae71b6625b84394af10e517019a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11496820
 MonoBehaviour:
   m_ObjectHideFlags: 1
