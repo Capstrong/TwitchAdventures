@@ -114,15 +114,12 @@ public class EventManager : SingletonBehaviour<EventManager>
 
 	IEnumerator PlayEventRoutine(GameEvent gameEvent)
 	{
-		Debug.Log("Do Event");
-
 		AudioSource source = SoundManager.instance.Play2DSong("EventPopUp");
 		yield return new WaitForSeconds(source.clip.length - 3f);
 
 		currentGameEvent = gameEvent;
 
 		eventImage.sprite = currentGameEvent.sprite;
-
 		eventText.text = currentGameEvent.text;
 		while(eventText.text.Contains("[p]"))
 		{

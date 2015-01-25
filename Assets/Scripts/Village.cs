@@ -24,7 +24,7 @@ public class Village : SingletonBehaviour<Village>
 		set
 		{
 			_villagerCount = value;
-			villagersDisplay.text = "Villagers: " + _villagerCount;
+			villagersDisplay.text = _villagerCount.ToString();
 		}
 	}
 	
@@ -33,7 +33,8 @@ public class Village : SingletonBehaviour<Village>
 	
 	void Start()
 	{
-		villagersDisplay.text = "Villagers: " + _villagerCount;
+		villagersDisplay.text = _villagerCount.ToString();
+		foodDisplay.text = numFood.ToString ();
 	}
 
 	public static void ConsumeFood()
@@ -53,7 +54,7 @@ public class Village : SingletonBehaviour<Village>
 			villagerCount -= ++starvationDecay;
 		}
 
-		foodDisplay.text = "Food: " + numFood;
+		foodDisplay.text = numFood.ToString();
 	}
 
 //	public int GetClassCount(VillagerClass villagerClass)
