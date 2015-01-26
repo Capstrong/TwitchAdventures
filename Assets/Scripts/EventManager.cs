@@ -79,14 +79,65 @@ public class EventManager : SingletonBehaviour<EventManager>
 
 	GameEvent currentGameEvent;
 
-	//string textToRead = "";
-
 	[SerializeField] float eventVoteTime = 10f;
 	[SerializeField] float eventEndWaitTime = 3f;
+
+	[SerializeField] AudioSource songA, songB;
+
+	[SerializeField] GameObject endScreen;
+
+	[SerializeField] Text finalScore;
+	[SerializeField] Text leftFallen;
+	[SerializeField] Text middleFallen;
+	[SerializeField] Text rightFallen;
+
+	int numNames = 51;
+	List<string> nameList = new List<string>();
 
 	void Start()
 	{
 		eventPanelInitPos = eventPanel.transform.position;
+	
+		for(int i = 0; i < numNames; i++)
+		{
+			if(i < 17)
+			{
+				leftFallen.text += 	firstNames[Random.Range(0, firstNames.Length - 1)] + " " + 
+			   					 	lastNames[Random.Range(0, lastNames.Length - 1)] + "\n";
+			}
+			else if(i < 34)
+			{
+				middleFallen.text += 	firstNames[Random.Range(0, firstNames.Length - 1)] + " " + 
+										lastNames[Random.Range(0, lastNames.Length - 1)] + "\n";
+			}
+			else
+			{
+				rightFallen.text += firstNames[Random.Range(0, firstNames.Length - 1)] + " " + 
+									lastNames[Random.Range(0, lastNames.Length - 1)] + "\n";
+			}
+		}
+	}
+
+	public void EndGame(int score)
+	{
+		finalScore.text = "Score: " + score.ToString();
+		endScreen.SetActive(true);
+
+		StartCoroutine(FadeToSong());
+	}
+
+	IEnumerator FadeToSong()
+	{
+		float fadeTime = 2f;
+		float fadeTimer = 0f;
+		while(fadeTimer < fadeTime)
+		{
+			songA.volume = Mathf.Lerp(1f, 0f, fadeTimer/fadeTime);
+			songB.volume = Mathf.Lerp(0f, 1f, fadeTimer/fadeTime);
+			
+			fadeTimer += Time.deltaTime;
+			yield return 0;
+		}
 	}
 
 	void Update()
@@ -95,12 +146,12 @@ public class EventManager : SingletonBehaviour<EventManager>
 		{
 			Application.Quit();
 		}
-		
-		if(Input.GetKeyDown(KeyCode.E))
-		{
-			StopAllCoroutines();
-			PlayEvent(gameEvents[Random.Range(0, gameEvents.Length - 1)]);
-		}
+//		
+//		if(Input.GetKeyDown(KeyCode.E))
+//		{
+//			StopAllCoroutines();
+//			PlayEvent(gameEvents[Random.Range(0, gameEvents.Length - 1)]);
+//		}
 	}
 
 	public void PlayEvent(GameEvent gameEvent)

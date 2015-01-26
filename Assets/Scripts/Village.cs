@@ -25,6 +25,11 @@ public class Village : SingletonBehaviour<Village>
 		{
 			_villagerCount = value;
 			villagersDisplay.text = _villagerCount.ToString();
+			if(_villagerCount <= 0)
+			{
+				_villagerCount = 0;
+				EventManager.instance.EndGame(numFood * 50 + (int)Time.timeSinceLevelLoad * 200);
+			}
 		}
 	}
 	
@@ -75,12 +80,23 @@ public class Village : SingletonBehaviour<Village>
 	{
 		// Do number popup
 		villagerCount += num;
+
+		if(villagerCount <= 0)
+		{
+			villagerCount = 0;
+			EventManager.instance.EndGame(numFood * 50 + (int)Time.timeSinceLevelLoad * 200);
+		}
 	}
 
 	public void AddFood(int num)
 	{
 		// Do number popup
 		numFood += num;
+	}
+
+	public void AddHealthBasedOnFood()
+	{
+		villagerCount += numFood/700;
 	}
 
 	public void PlayFightSound()

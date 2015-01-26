@@ -106,5 +106,6 @@ public class Avatar : GridObject
 		}
 
 		Village.ConsumeFood();
+		Village.instance.AddHealthBasedOnFood();
 	}
 }

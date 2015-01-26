@@ -57,6 +57,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 898bae71b6625b84394af10e517019a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  snapValue: 1
+  depth: 0
 --- !u!114 &11486596
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -70,7 +72,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clips:
   - {fileID: 8300000, guid: 8d54ed829a88244618b405c5bc27d896, type: 3}
-  damage: 60
+  damage: 35
   health: 20
 --- !u!212 &21217756
 SpriteRenderer:
